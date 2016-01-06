@@ -12,6 +12,7 @@ namespace ConsoleApplication1
 
         static int NumberOfCombinations(int pence)
         {
+            // TODO - this algorithm.. make the tests pass :-)
             return 2;
         }
 
