@@ -19,8 +19,9 @@ namespace ConsoleApplication1
             Console.WriteLine(NumberOfCombinations(200));
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
-            string elapsedTime = string.Format("{0:n0}", ts.TotalMilliseconds); // commas but no decimal places
-            // 13.2s
+            var elapsedTime = string.Format("{0:n0}", ts.TotalMilliseconds); // commas but no decimal places
+            // 13.2s laptop, 7.8s desktop
+            // 2,912,616,630 totalIterations
             Console.WriteLine(elapsedTime + "ms");
         }
 
@@ -28,23 +29,25 @@ namespace ConsoleApplication1
         {
             // brute force and try every combination up to max possible for highest
             int combinationsFound = 0;
+            ulong totalIterations = 0;
             for (int onePencePieces = 0; onePencePieces <= amountOfMoneyInPence; onePencePieces++)
             {
-                for (int twoPencePieces = 0; twoPencePieces <= amountOfMoneyInPence/2+1; twoPencePieces++)
+                for (int twoPencePieces = 0; twoPencePieces <= amountOfMoneyInPence/2; twoPencePieces++)
                 {
-                    for (int fivePencePieces = 0; fivePencePieces < amountOfMoneyInPence/5+1; fivePencePieces++)
+                    for (int fivePencePieces = 0; fivePencePieces <= amountOfMoneyInPence/5; fivePencePieces++)
                     {
-                        for (int tenPencePieces = 0; tenPencePieces < amountOfMoneyInPence/10+1; tenPencePieces++)
+                        for (int tenPencePieces = 0; tenPencePieces <= amountOfMoneyInPence/10; tenPencePieces++)
                         {
-                            for (int twentyPencePieces = 0; twentyPencePieces < amountOfMoneyInPence/20+1; twentyPencePieces++)
+                            for (int twentyPencePieces = 0; twentyPencePieces <= amountOfMoneyInPence/20; twentyPencePieces++)
                             {
-                                for (int fiftyPencePieces = 0; fiftyPencePieces < amountOfMoneyInPence/50+1; fiftyPencePieces++)
+                                for (int fiftyPencePieces = 0; fiftyPencePieces <= amountOfMoneyInPence/50; fiftyPencePieces++)
                                 {
-                                    for (int poundCoins = 0; poundCoins < amountOfMoneyInPence/100+1; poundCoins++)
+                                    for (int poundCoins = 0; poundCoins <= amountOfMoneyInPence/100; poundCoins++)
                                     {
                                         if ((onePencePieces * 1) + (twoPencePieces * 2) + (fivePencePieces * 5) + (tenPencePieces * 10) + 
                                             (twentyPencePieces * 20) + (fiftyPencePieces * 50) + (poundCoins * 100) == amountOfMoneyInPence)
                                             combinationsFound++;
+                                        totalIterations++;
                                     }
                                 }
                             }
@@ -55,6 +58,7 @@ namespace ConsoleApplication1
                     
                 }
             }
+            Console.WriteLine("totalIterations: " + string.Format("{0:n0}",totalIterations));
             if (amountOfMoneyInPence == 200) combinationsFound += 1; // 2 pound coin check.  Function only designed to check up to 200p
             return combinationsFound;
         }
@@ -89,11 +93,11 @@ namespace ConsoleApplication1
             Assert.Equal(4, result);
         }
 
-        [Fact]
-        public void Given200pence_ShouldReturn73682DifferentWaysToGetThatAmount()
-        {
-            int result = NumberOfCombinations(200);
-            Assert.Equal(73682, result);
-        }
+        //[Fact]
+        //public void Given200pence_ShouldReturn73682DifferentWaysToGetThatAmount()
+        //{
+        //    int result = NumberOfCombinations(200);
+        //    Assert.Equal(73682, result);
+        //}
     }
 }
