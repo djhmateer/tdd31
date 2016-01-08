@@ -22,9 +22,9 @@ namespace ConsoleApplication1
     // [done]are we over the answer (ie max)
     // reverse the algorithm, start with larger coins?
 
-    public class Program
+    public class Program1
     {
-        static void Main()
+        static void Main1()
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
