@@ -10,7 +10,7 @@ namespace ConsoleApplication1
     // 1×£1 + 1×50p + 2×20p + 1×5p + 1×2p + 3×1p
     // How many different ways can £2 be made using any number of coins?
 
-    // Current Perf:
+    // Current Perf to find answer of 73,682 combinations:
     // 2,886,725 iterations.. 40ms
 
     // Ideas for improving the code
@@ -58,12 +58,12 @@ namespace ConsoleApplication1
                                     if (AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces, twentyPencePieces,
                                         fifetyPencePieces)) continue;
 
-                                    for (int poundCouns = 0; poundCouns <= goalAmountOfMoneyInPence / 100; poundCouns++)
+                                    for (int poundCoins = 0; poundCoins <= goalAmountOfMoneyInPence / 100; poundCoins++)
                                     {
                                         if (AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces, twentyPencePieces,
-                                            fifetyPencePieces, poundCouns)) continue;
+                                            fifetyPencePieces, poundCoins)) continue;
                                         if ((onePencePieces * 1) + (twoPencePieces * 2) + (fivePencePieces * 5) + (tenPencePieces * 10) + (twentyPencePieces * 20) +
-                                            (fifetyPencePieces * 50) + (poundCouns * 100) == goalAmountOfMoneyInPence)
+                                            (fifetyPencePieces * 50) + (poundCoins * 100) == goalAmountOfMoneyInPence)
                                             combinationsFound++;
                                         //Console.WriteLine(onePencePieces + " " + twoPencePieces + " " + fivePencePieces);
                                         totalIterations++;
@@ -94,7 +94,6 @@ namespace ConsoleApplication1
             var result = AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence: 3, onePencePieces: 2, twoPencePieces: 1);
             Assert.True(result);
         }
-
 
         // 111
         // 21
