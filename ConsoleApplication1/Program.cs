@@ -10,6 +10,18 @@ namespace ConsoleApplication1
     // 1×£1 + 1×50p + 2×20p + 1×5p + 1×2p + 3×1p
     // How many different ways can £2 be made using any number of coins?
 
+    // Current Perf:
+    // 2,886,725 iterations.. 40ms
+
+    // Ideas for improving the code
+    // - performance is good at 40ms
+    // - code looks confusing!
+
+    // is it possible to get the answer with combinations left? eg if 0*onePencePiece then can't make 3 pence
+    // can we get to the answer (ie min)
+    // [done]are we over the answer (ie max)
+    // reverse the algorithm, start with larger coins?
+
     public class Program
     {
         static void Main()
@@ -19,10 +31,7 @@ namespace ConsoleApplication1
             Console.WriteLine(NumberOfCombinations(200));
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
-            var elapsedTime = string.Format("{0:n0}", ts.TotalMilliseconds); // commas but no decimal places
-            // 13.2s laptop, 7.8s desktop
-            // 2,912,616,630 totalIterations
-            // with max check now: 2,886,725 iterations
+            var elapsedTime = $"{ts.TotalMilliseconds:n0}"; // commas but no decimal places.  String interpolation
             Console.WriteLine(elapsedTime + "ms");
         }
 
@@ -34,24 +43,24 @@ namespace ConsoleApplication1
             {
                 for (int twoPencePieces = 0; twoPencePieces <= goalAmountOfMoneyInPence / 2; twoPencePieces++)
                 {
-                    if (AreCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces)) continue;
+                    if (AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces)) continue;
                     for (int fivePencePieces = 0; fivePencePieces <= goalAmountOfMoneyInPence / 5; fivePencePieces++)
                     {
-                        if (AreCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces)) continue;
+                        if (AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces)) continue;
                         for (int tenPencePieces = 0; tenPencePieces <= goalAmountOfMoneyInPence / 10; tenPencePieces++)
                         {
-                            if (AreCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces)) continue;
+                            if (AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces)) continue;
                             for (int twentyPencePieces = 0; twentyPencePieces <= goalAmountOfMoneyInPence / 20; twentyPencePieces++)
                             {
-                                if (AreCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces, twentyPencePieces)) continue;
+                                if (AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces, twentyPencePieces)) continue;
                                 for (int fifetyPencePieces = 0; fifetyPencePieces <= goalAmountOfMoneyInPence / 50; fifetyPencePieces++)
                                 {
-                                    if (AreCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces, twentyPencePieces,
+                                    if (AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces, twentyPencePieces,
                                         fifetyPencePieces)) continue;
 
                                     for (int poundCouns = 0; poundCouns <= goalAmountOfMoneyInPence / 100; poundCouns++)
                                     {
-                                        if (AreCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces, twentyPencePieces,
+                                        if (AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence, onePencePieces, twoPencePieces, fivePencePieces, tenPencePieces, twentyPencePieces,
                                             fifetyPencePieces, poundCouns)) continue;
                                         if ((onePencePieces * 1) + (twoPencePieces * 2) + (fivePencePieces * 5) + (tenPencePieces * 10) + (twentyPencePieces * 20) +
                                             (fifetyPencePieces * 50) + (poundCouns * 100) == goalAmountOfMoneyInPence)
@@ -66,37 +75,32 @@ namespace ConsoleApplication1
                     }
                 }
             }
-            Console.WriteLine("totalIterations: " + string.Format("{0:n0}", totalIterations));
+            Console.WriteLine("totalIterations: " + $"{totalIterations:n0}");
             if (goalAmountOfMoneyInPence == 200) combinationsFound += 1; // 2 pound coin check.  Function only designed to check up to 200p
             return combinationsFound;
         }
 
-        private static bool AreCoinCombinationsOverTheGoalAmount(int goalAmountOfMoneyInPence, int onePencePieces, int twoPencePieces = 0, int fivePencePieces = 0, int tenPencePieces = 0, 
+        private static bool AreCurrentFixedCoinCombinationsOverTheGoalAmount(int goalAmountOfMoneyInPence, int onePencePieces, int twoPencePieces = 0, int fivePencePieces = 0, int tenPencePieces = 0, 
             int twentyPencePieces = 0, int fifetyPencePieces = 0, int poundCoins = 0)
         {
             return (onePencePieces * 1) + (twoPencePieces * 2) + (fivePencePieces * 5) + (tenPencePieces * 10) + (twentyPencePieces * 20)
                 + (fifetyPencePieces * 50) + (poundCoins * 100) > goalAmountOfMoneyInPence;
         }
 
-        // max check over? - goal is to cut down total iterations
+        // AreCurrentFixedCoinCombinationsOverTheGoalAmount...max check over - goal is to cut down total iterations
         [Fact]
-        public void Given3pAsGoal_AndWeAreOn2OnePencesAnd1TwoPencePiece_ShouldReturnTrue()
+        public void Given3pAsGoal_AndWeAreOn2OnePencesAnd1TwoPencePiecesIE4pence_ShouldReturnTrue()
         {
-            var result = AreCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence: 3, onePencePieces: 2, twoPencePieces: 1);
+            var result = AreCurrentFixedCoinCombinationsOverTheGoalAmount(goalAmountOfMoneyInPence: 3, onePencePieces: 2, twoPencePieces: 1);
             Assert.True(result);
         }
 
-        // is it possible to get the answer with combinations left? eg if 0*onePencePiece then can't make 3 pence
-        // can we get to the answer (ie min)
-        // [done]are we over the answer (ie max)
-        // reverse the algorithm, start with larger coins?
 
         // 111
         // 21
         [Fact]
         public void Given3pence_ShouldReturn2DifferentWaysToGetThatAmount()
         {
-            Debug.WriteLine("test");
             int result = NumberOfCombinations(3);
             Assert.Equal(2, result);
         }
