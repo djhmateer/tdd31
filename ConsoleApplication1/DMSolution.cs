@@ -22,7 +22,7 @@ namespace ConsoleApplication1
     // [done]are we over the answer (ie max)
     // reverse the algorithm, start with larger coins?
 
-    public class Program1
+    public class DMSolution
     {
         static void Main1()
         {

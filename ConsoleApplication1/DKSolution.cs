@@ -13,7 +13,7 @@ namespace ConsoleApplication1
     // Current Perf to find answer of 73,682 combinations:
     // 0ms
 
-    public class Program2
+    public class DKSolution
     {
         static void Main()
         {
@@ -21,7 +21,6 @@ namespace ConsoleApplication1
 
             int target = 200;
             int ways = 0;
-
             for (int a = target; a >= 0; a -= 200)
             {
                 for (int b = a; b >= 0; b -= 100)
